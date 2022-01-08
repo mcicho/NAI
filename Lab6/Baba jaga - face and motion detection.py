@@ -39,18 +39,20 @@ while True:
     count = np.count_nonzero(foreground_mask)
     print('Frame: %d, Pixel Count: %d' % (frameCount, count))
 
-    # Determine how many pixels do you want to detect to be considered as motion (changing pixels)
-    if (frameCount > 30 and count > 550):
-        cv2.putText(frame, 'Motion detected', (10, 50), cv2.FONT_HERSHEY_TRIPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
-
-
     # Convert colors to gray scale because of using face cascade 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     face_rects = face_cascade.detectMultiScale(gray, 1.3, 5)
-    
-    # Draw rectangle on recognized face
-    for (x,y,w,h) in face_rects:
-        cv2.rectangle(frame, (x,y), (x+w,y+h), (0,255,0), 2)
+
+    # Determine how many pixels do you want to detect to be considered as motion (changing pixels)
+    if (frameCount > 20 and count > 550):
+        cv2.putText(frame, 'Motion detected', (10, 50), cv2.FONT_HERSHEY_TRIPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+        # Draw red rectangle on recognized moving face
+        for (x,y,w,h) in face_rects:
+            cv2.rectangle(frame, (x,y), (x+w,y+h), (0,0,255), 2)
+    else:
+        # Draw green rectangle on recognized face
+        for (x,y,w,h) in face_rects:
+            cv2.rectangle(frame, (x,y), (x+w,y+h), (0,255,0), 2)
 
     cv2.imshow('Frame', frame)
     cv2.imshow('Mask', foreground_mask)
