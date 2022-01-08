@@ -35,7 +35,7 @@ while True:
     # Apply subtractor to frames from video capturing
     foreground_mask = fg_bg_subctracor.apply(frame)
 
-	# Count all the white (changing) pixels within the mask
+    # Count all the white (changing) pixels within the mask
     count = np.count_nonzero(foreground_mask)
     print('Frame: %d, Pixel Count: %d' % (frameCount, count))
 
@@ -46,6 +46,7 @@ while True:
     # Determine how many pixels do you want to detect to be considered as motion (changing pixels)
     if (frameCount > 20 and count > 550):
         cv2.putText(frame, 'Motion detected', (10, 50), cv2.FONT_HERSHEY_TRIPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+        
         # Draw red rectangle on recognized moving face
         for (x,y,w,h) in face_rects:
             cv2.rectangle(frame, (x,y), (x+w,y+h), (0,0,255), 2)
